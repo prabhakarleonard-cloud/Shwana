@@ -2,8 +2,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  height: 100vh;
-  overflow: hidden;
+
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   display: flex;
   justify-content: center;
@@ -22,10 +24,12 @@ body {
   width: 360px;
   z-index: 10;
   position: relative;
+
+  margin: 40px 0;
 }
 
 .container.wide {
-  width: 520px;
+  width: 560px;
 }
 
 h1 {
@@ -69,7 +73,6 @@ h1 {
   transform: scale(1.06);
 }
 
-/* For actual <button> but same look */
 .buttonLike {
   border: none;
   cursor: pointer;
@@ -110,7 +113,7 @@ button {
 /* Cats */
 .cat {
   position: absolute;
-  width: 110px;
+  width: 105px;
   opacity: 0.95;
   z-index: 1;
   filter: drop-shadow(0 8px 10px rgba(0,0,0,0.15));
@@ -123,27 +126,33 @@ button {
 .cat3 { bottom: 40px; left: 55px; transform: rotate(10deg); }
 .cat4 { bottom: 55px; right: 65px; transform: rotate(-10deg); }
 
-/* Sudoku */
+/* Sudoku Grid */
 .sudoku {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(9, 44px);
+  grid-template-rows: repeat(9, 44px);
   gap: 0;
-  width: 100%;
-  max-width: 460px;
+  justify-content: center;
+
   margin: 0 auto 18px auto;
+
   border: 3px solid #ff4d6d;
   border-radius: 14px;
   overflow: hidden;
+  background: white;
 }
 
 .cell {
-  width: 100%;
-  aspect-ratio: 1 / 1;
+  width: 44px;
+  height: 44px;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   font-weight: bold;
   font-size: 1.1rem;
+
   border: 1px solid #ffd1dc;
   background: #fff;
 }
@@ -153,25 +162,28 @@ button {
   background: #fff5f8;
 }
 
+/* Visible input */
 .cell input {
   width: 100%;
   height: 100%;
-  border: none;
+
+  border: 2px solid #ff4d6d;
   text-align: center;
   font-size: 1.1rem;
   font-weight: bold;
+
   outline: none;
-  background: #ffffff;
+  background: #ffe6f0;
   color: #ff2f77;
 }
 
-/* Thicker Sudoku 3x3 borders */
+/* Thick Sudoku 3x3 borders */
 .cell.thickRight {
-  border-right: 3px solid #ff4d6d;
+  border-right: 3px solid #ff4d6d !important;
 }
 
 .cell.thickBottom {
-  border-bottom: 3px solid #ff4d6d;
+  border-bottom: 3px solid #ff4d6d !important;
 }
 
 .miniMsg {
@@ -181,8 +193,26 @@ button {
 }
 
 /* Mobile */
-@media (max-width: 600px) {
-  .cat { width: 75px; }
-  .container { width: 85%; padding: 35px 22px; }
-  .container.wide { width: 90%; }
+@media (max-width: 650px) {
+  .cat { width: 70px; }
+
+  .container {
+    width: 88%;
+    padding: 35px 20px;
+  }
+
+  .container.wide {
+    width: 92%;
+  }
+
+  .sudoku {
+    grid-template-columns: repeat(9, 32px);
+    grid-template-rows: repeat(9, 32px);
+  }
+
+  .cell {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
 }
