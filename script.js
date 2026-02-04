@@ -46,7 +46,9 @@ function renderSudoku() {
         input.type = "text";
         input.maxLength = 1;
         input.inputMode = "numeric";
-        input.placeholder = "?";
+        input.placeholder = "";
+        input.classList.add("sudokuInput");
+
 
         input.addEventListener("input", () => {
           // Only allow 1-9
