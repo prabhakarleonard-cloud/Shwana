@@ -3,29 +3,325 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Step 2 💖</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Dragon World</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --ink: rgba(255,255,255,0.92);
+      --soft: rgba(255,255,255,0.70);
+      --card: rgba(10, 18, 30, 0.42);
+      --border: rgba(255,255,255,0.10);
+      --shadow: 0 30px 90px rgba(0,0,0,0.55);
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+
+    body{
+      min-height:100vh;
+      overflow:hidden;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: #050812;
+      color: var(--ink);
+    }
+
+    /* ===== Cinematic intro overlay ===== */
+    .intro{
+      position:fixed;
+      inset:0;
+      z-index:999;
+      background: #000;
+      animation: fadeOut 1.2s ease forwards;
+      animation-delay: 0.25s;
+    }
+    @keyframes fadeOut{
+      to{ opacity:0; pointer-events:none; }
+    }
+
+    /* ===== World ===== */
+    .world{
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(90,160,255,0.16), transparent 45%),
+        radial-gradient(circle at 70% 35%, rgba(120,220,255,0.10), transparent 55%),
+        radial-gradient(circle at 50% 120%, rgba(0,0,0,0.95), rgba(0,0,0,0.2)),
+        linear-gradient(180deg, #050812 0%, #081a2d 45%, #050812 100%);
+    }
+
+    /* Stars */
+    .stars{
+      position:absolute;
+      inset:0;
+      opacity:0.75;
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.55), transparent 60%),
+        radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,0.35), transparent 60%),
+        radial-gradient(1px 1px at 55% 40%, rgba(255,255,255,0.4), transparent 60%),
+        radial-gradient(2px 2px at 85% 35%, rgba(255,255,255,0.25), transparent 60%),
+        radial-gradient(1px 1px at 30% 15%, rgba(255,255,255,0.3), transparent 60%),
+        radial-gradient(1px 1px at 40% 28%, rgba(255,255,255,0.25), transparent 60%),
+        radial-gradient(1px 1px at 10% 22%, rgba(255,255,255,0.25), transparent 60%);
+      animation: twinkle 6s ease-in-out infinite;
+    }
+    @keyframes twinkle{
+      0%,100%{ opacity:0.55; }
+      50%{ opacity:0.9; }
+    }
+
+    /* Fog */
+    .fog{
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 20% 40%, rgba(255,255,255,0.06), transparent 55%),
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.04), transparent 60%),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.05), transparent 55%);
+      filter: blur(32px);
+      animation: drift 14s ease-in-out infinite;
+      opacity:0.9;
+    }
+    @keyframes drift{
+      0%{ transform: translate3d(-2%, -2%, 0) scale(1.05); }
+      50%{ transform: translate3d(2%, 1%, 0) scale(1.1); }
+      100%{ transform: translate3d(-2%, -2%, 0) scale(1.05); }
+    }
+
+    /* Mountains */
+    .mountains{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:-1px;
+      height: 46vh;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.65)),
+        linear-gradient(180deg, #0a0f1c 0%, #050812 100%);
+      clip-path: polygon(
+        0% 100%,
+        0% 55%,
+        8% 60%,
+        16% 52%,
+        26% 62%,
+        35% 45%,
+        46% 60%,
+        58% 42%,
+        70% 62%,
+        82% 50%,
+        92% 65%,
+        100% 58%,
+        100% 100%
+      );
+      opacity:0.98;
+    }
+
+    /* Tiny dragon silhouette (pure CSS) */
+    .dragon{
+      position:absolute;
+      top: 18%;
+      right: 12%;
+      width: 160px;
+      height: 160px;
+      opacity:0.12;
+      filter: blur(0.2px);
+      animation: dragonFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes dragonFloat{
+      0%,100%{ transform: translateY(0px) rotate(-2deg); }
+      50%{ transform: translateY(10px) rotate(2deg); }
+    }
+
+    /* This is a cute “toothless-ish” silhouette without using assets */
+    .dragon::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: rgba(255,255,255,0.85);
+      clip-path: polygon(
+        48% 20%,
+        58% 26%,
+        66% 35%,
+        76% 40%,
+        86% 36%,
+        80% 50%,
+        70% 56%,
+        62% 52%,
+        56% 60%,
+        60% 74%,
+        52% 78%,
+        44% 72%,
+        40% 60%,
+        34% 52%,
+        26% 56%,
+        18% 50%,
+        12% 36%,
+        24% 40%,
+        34% 35%,
+        42% 26%
+      );
+      border-radius: 30px;
+      filter: blur(0.8px);
+    }
+
+    /* Floating particles */
+    .particle{
+      position:absolute;
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background: rgba(180,220,255,0.35);
+      filter: blur(0.4px);
+      animation: float 10s linear infinite;
+      opacity:0;
+    }
+    @keyframes float{
+      0%{ transform: translateY(40vh); opacity:0; }
+      15%{ opacity:0.45; }
+      100%{ transform: translateY(-70vh); opacity:0; }
+    }
+
+    /* ===== Card ===== */
+    .wrap{
+      position:relative;
+      z-index:10;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 22px;
+    }
+
+    .card{
+      width:min(820px, 94vw);
+      padding: 56px 38px;
+      border-radius: 30px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      text-align:center;
+
+      transform: translateY(18px);
+      opacity:0;
+      animation: enter 1.15s ease forwards;
+      animation-delay: 0.35s;
+    }
+
+    @keyframes enter{
+      to{ transform: translateY(0); opacity:1; }
+    }
+
+    h1{
+      font-family: "Baloo 2", cursive;
+      font-weight: 800;
+      font-size: clamp(2.2rem, 6vw, 4.2rem);
+      letter-spacing:-0.02em;
+      line-height: 1.05;
+      margin-bottom: 18px;
+      text-shadow: 0 20px 60px rgba(0,0,0,0.55);
+    }
+
+    .lines{
+      font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+      color: var(--soft);
+      line-height: 1.65;
+      margin-bottom: 22px;
+    }
+
+    .lines span{
+      display:block;
+      margin: 6px 0;
+    }
+
+    .toothless{
+      margin-top: 10px;
+      font-size: 0.98rem;
+      opacity:0.75;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.92);
+      cursor:pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      user-select:none;
+      box-shadow: 0 18px 55px rgba(0,0,0,0.35);
+    }
+
+    .btn:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.12);
+    }
+    .btn:active{
+      transform: translateY(0px);
+    }
+
+    .tiny{
+      margin-top: 16px;
+      font-size: 0.92rem;
+      opacity:0.6;
+    }
+  </style>
 </head>
+
 <body>
 
-  <img src="https://i.imgur.com/0XKzn4k.png" class="cat cat1" alt="cat" />
-  <img src="https://i.imgur.com/0XKzn4k.png" class="cat cat2" alt="cat" />
-  <img src="https://i.imgur.com/0XKzn4k.png" class="cat cat3" alt="cat" />
-  <img src="https://i.imgur.com/0XKzn4k.png" class="cat cat4" alt="cat" />
+  <div class="intro"></div>
 
-  <div class="container">
-    <div class="progress">Step 2 of 5</div>
-    <h1>Okay… 🐉</h1>
+  <div class="world">
+    <div class="stars"></div>
+    <div class="fog"></div>
+    <div class="dragon"></div>
+    <div class="mountains"></div>
 
-    <p class="sub">
-      If Hiccup can win over Toothless…<br />
-      I can definitely win over you 😌
-      <br /><br />
-      (Also you’re 100% the cool dragon in this story.)
-    </p>
-
-    <a class="mainBtn" href="sudoku.html">Continue ➜</a>
+    <!-- Particles -->
+    <div class="particle" style="left:12%; animation-delay:0s;"></div>
+    <div class="particle" style="left:22%; animation-delay:2s;"></div>
+    <div class="particle" style="left:38%; animation-delay:4s;"></div>
+    <div class="particle" style="left:55%; animation-delay:1s;"></div>
+    <div class="particle" style="left:70%; animation-delay:3s;"></div>
+    <div class="particle" style="left:86%; animation-delay:5s;"></div>
   </div>
+
+  <div class="wrap">
+    <main class="card">
+      <h1>How To Train Your Dragon.</h1>
+
+      <div class="lines">
+        <span>You put me onto it.</span>
+        <span>So I brought you here.</span>
+      </div>
+
+      <div class="toothless">(and yes… Toothless is ridiculously cute.)</div>
+
+      <div style="height:26px;"></div>
+
+      <button class="btn" onclick="goNext()">
+        keep going →
+      </button>
+
+      <div class="tiny">next: something else you like 😌</div>
+    </main>
+  </div>
+
+  <script>
+    function goNext(){
+      window.location.href = "sudoku.html";
+    }
+  </script>
 
 </body>
 </html>
