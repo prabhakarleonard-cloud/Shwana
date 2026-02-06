@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dragon Portal</title>
+  <title>Dragon World</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,35 +19,38 @@
       color: rgba(255,255,255,0.92);
     }
 
-    /* ===== Scene ===== */
     .scene{
       position:fixed;
       inset:0;
       background:#000;
     }
 
-    /* ===== The world behind the portal ===== */
+    /* ===== World ===== */
     .world{
       position:absolute;
       inset:0;
       opacity:0;
-      transition: opacity 1.2s ease;
-      transform: scale(1.1);
+      transform: scale(1.08);
+      transition: opacity 1.3s ease, transform 2.8s ease;
     }
 
-    /* Moonlit sky */
+    .opening .world{
+      opacity:1;
+    }
+    .push .world{
+      transform: scale(1.18);
+    }
+
+    /* Sky */
     .sky{
       position:absolute;
       inset:0;
       background:
-        radial-gradient(circle at 75% 18%, rgba(255,255,255,0.22), transparent 38%),
-        radial-gradient(circle at 72% 16%, rgba(120,200,255,0.18), transparent 40%),
-        radial-gradient(circle at 30% 25%, rgba(90,160,255,0.16), transparent 48%),
-        linear-gradient(180deg, #02030a 0%, #081a2d 45%, #02030a 100%);
-      filter: saturate(1.08);
+        radial-gradient(circle at 70% 16%, rgba(255,255,255,0.22), transparent 40%),
+        radial-gradient(circle at 30% 25%, rgba(120,200,255,0.16), transparent 52%),
+        linear-gradient(180deg, #02030a 0%, #071a2d 55%, #02030a 100%);
     }
 
-    /* Moon */
     .moon{
       position:absolute;
       top: 9%;
@@ -55,18 +58,18 @@
       width: 140px;
       height: 140px;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.35), rgba(255,255,255,0.05));
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.25), rgba(255,255,255,0.02));
       box-shadow:
         0 0 40px rgba(255,255,255,0.18),
         0 0 140px rgba(120,220,255,0.10);
       opacity:0.9;
+      z-index:2;
     }
 
-    /* Stars */
     .stars{
       position:absolute;
       inset:0;
-      opacity:0.75;
+      opacity:0.7;
       background-image:
         radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.55), transparent 60%),
         radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,0.35), transparent 60%),
@@ -76,31 +79,34 @@
         radial-gradient(1px 1px at 40% 28%, rgba(255,255,255,0.25), transparent 60%),
         radial-gradient(1px 1px at 10% 22%, rgba(255,255,255,0.25), transparent 60%);
       animation: twinkle 6s ease-in-out infinite;
+      z-index:1;
     }
+
     @keyframes twinkle{
       0%,100%{ opacity:0.55; }
       50%{ opacity:0.95; }
     }
 
-    /* Parallax clouds */
-    .cloudLayer{
+    /* Fog */
+    .fog{
       position:absolute;
-      inset:-20%;
-      filter: blur(34px);
-      opacity:0.65;
-      animation: drift 14s ease-in-out infinite;
+      inset:-25%;
       background:
-        radial-gradient(circle at 20% 40%, rgba(255,255,255,0.07), transparent 55%),
-        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.05), transparent 60%),
-        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.06), transparent 55%);
+        radial-gradient(circle at 30% 40%, rgba(255,255,255,0.06), transparent 60%),
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.05), transparent 65%),
+        radial-gradient(circle at 45% 70%, rgba(255,255,255,0.05), transparent 60%);
+      filter: blur(40px);
+      opacity:0.65;
+      animation: fog 14s ease-in-out infinite;
+      z-index:3;
     }
-    .cloudLayer.two{
-      opacity:0.35;
-      filter: blur(46px);
-      animation-duration: 18s;
+    .fog.two{
+      opacity:0.32;
+      filter: blur(52px);
+      animation-duration: 19s;
       transform: scale(1.08);
     }
-    @keyframes drift{
+    @keyframes fog{
       0%{ transform: translate3d(-2%, -2%, 0) scale(1.05); }
       50%{ transform: translate3d(2%, 1%, 0) scale(1.14); }
       100%{ transform: translate3d(-2%, -2%, 0) scale(1.05); }
@@ -112,481 +118,373 @@
       left:0;
       right:0;
       bottom:-1px;
-      height: 48vh;
+      height: 52vh;
       background:
-        linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.78)),
+        linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.82)),
         linear-gradient(180deg, #0a0f1c 0%, #02030a 100%);
       clip-path: polygon(
         0% 100%,
-        0% 55%,
-        8% 60%,
-        16% 52%,
-        26% 62%,
-        35% 45%,
-        46% 60%,
-        58% 42%,
-        70% 62%,
-        82% 50%,
-        92% 65%,
-        100% 58%,
+        0% 58%,
+        8% 64%,
+        18% 54%,
+        30% 66%,
+        42% 46%,
+        54% 64%,
+        66% 42%,
+        78% 66%,
+        88% 52%,
+        96% 66%,
+        100% 60%,
         100% 100%
       );
       opacity:0.98;
+      z-index:4;
     }
 
-    /* ===== Portal tear ===== */
-    .tear{
-      position:absolute;
-      top:50%;
-      left:50%;
-      width: 18px;
-      height: 280px;
-      transform: translate(-50%, -50%);
-      border-radius: 999px;
-      background: linear-gradient(180deg,
-        rgba(180,230,255,0.0),
-        rgba(180,230,255,0.95),
-        rgba(180,230,255,0.0)
-      );
-      box-shadow:
-        0 0 30px rgba(120,220,255,0.45),
-        0 0 100px rgba(120,220,255,0.16);
-      opacity:0;
-      z-index:10;
-    }
-
-    .tear::before,
-    .tear::after{
-      content:"";
-      position:absolute;
-      top:0;
-      bottom:0;
-      width: 28px;
-      background: rgba(255,255,255,0.05);
-      opacity:0.9;
-      filter: blur(0.2px);
-    }
-    .tear::before{
-      left:-26px;
-      clip-path: polygon(100% 0%, 40% 6%, 90% 14%, 30% 24%, 95% 34%, 35% 46%, 92% 58%, 40% 68%, 96% 80%, 50% 92%, 100% 100%);
-    }
-    .tear::after{
-      right:-26px;
-      clip-path: polygon(0% 0%, 60% 8%, 10% 16%, 70% 26%, 5% 38%, 65% 48%, 12% 62%, 72% 70%, 8% 84%, 55% 92%, 0% 100%);
-    }
-
-    .ripple{
+    /* ===== Background flying dragons ===== */
+    .bgDragons{
       position:absolute;
       inset:0;
-      opacity:0;
-      z-index:11;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06), transparent 55%),
-        repeating-linear-gradient(
-          90deg,
-          rgba(255,255,255,0.02),
-          rgba(255,255,255,0.02) 3px,
-          transparent 3px,
-          transparent 10px
-        );
-      mix-blend-mode: overlay;
-      filter: blur(1px);
-    }
-
-    .opening .tear{
-      opacity:1;
-      animation: openTear 2.1s ease forwards;
-    }
-    .opening .ripple{
-      opacity:1;
-      animation: ripple 2.4s ease forwards;
-    }
-    .opening .world{
-      opacity:1;
-    }
-
-    @keyframes ripple{
-      0%{ transform: scale(0.95); opacity:0; }
-      30%{ opacity:0.55; }
-      100%{ transform: scale(1.08); opacity:0; }
-    }
-
-    @keyframes openTear{
-      0%{ width: 12px; height: 220px; opacity:0; }
-      15%{ opacity:1; }
-      100%{
-        width: 86vw;
-        height: 92vh;
-        opacity:1;
-        border-radius: 26px;
-      }
-    }
-
-    /* Camera push-in */
-    .push .world{
-      transform: scale(1.24);
-      transition: transform 2.8s ease;
-    }
-
-    /* Screen rumble */
-    .rumble{ animation: rumble 0.5s ease; }
-    @keyframes rumble{
-      0%{ transform: translate(0,0); }
-      20%{ transform: translate(-3px,2px); }
-      40%{ transform: translate(2px,-2px); }
-      60%{ transform: translate(-2px,-1px); }
-      80%{ transform: translate(2px,1px); }
-      100%{ transform: translate(0,0); }
-    }
-
-    /* ===== Dragons (SVG) ===== */
-    .dragons{
-      position:absolute;
-      inset:0;
-      z-index:6;
+      z-index:5;
       pointer-events:none;
     }
 
-    .dragon{
+    .bgDragon{
       position:absolute;
       width: 140px;
       height: 80px;
-      opacity:0.9;
-      filter: drop-shadow(0 10px 22px rgba(0,0,0,0.45));
+      opacity:0.6;
+      filter:
+        blur(0.3px)
+        drop-shadow(0 14px 30px rgba(0,0,0,0.55));
       animation: fly linear infinite;
     }
 
-    /* Different depth */
-    .d1{ top:18%; left:-20%; width: 190px; animation-duration: 16s; opacity:0.95; }
-    .d2{ top:30%; left:-25%; width: 120px; animation-duration: 13s; opacity:0.7; }
-    .d3{ top:44%; left:-30%; width: 160px; animation-duration: 18s; opacity:0.6; }
-    .d4{ top:22%; left:-40%; width: 90px;  animation-duration: 11s; opacity:0.55; }
-    .d5{ top:36%; left:-35%; width: 110px; animation-duration: 14s; opacity:0.65; }
-    .d6{ top:14%; left:-30%; width: 75px;  animation-duration: 10s; opacity:0.45; }
-
-    /* Main cute black dragon */
-    .main{
-      top: 56%;
-      left: -30%;
-      width: 240px;
-      animation-duration: 20s;
-      opacity: 1;
-      z-index:7;
-      filter: drop-shadow(0 18px 40px rgba(0,0,0,0.55));
-    }
+    /* depth */
+    .bg1{ top:18%; left:-25%; width: 170px; animation-duration: 15s; opacity:0.55; }
+    .bg2{ top:28%; left:-30%; width: 110px; animation-duration: 12s; opacity:0.35; filter: blur(1px); }
+    .bg3{ top:40%; left:-35%; width: 150px; animation-duration: 18s; opacity:0.3; filter: blur(1.4px); }
+    .bg4{ top:22%; left:-40%; width: 90px;  animation-duration: 10s; opacity:0.22; filter: blur(1.8px); }
+    .bg5{ top:34%; left:-38%; width: 120px; animation-duration: 14s; opacity:0.28; filter: blur(1.2px); }
 
     @keyframes fly{
-      0%{ transform: translateX(0) translateY(0) scale(1); }
-      20%{ transform: translateX(30vw) translateY(-1vh) scale(1.02); }
-      50%{ transform: translateX(70vw) translateY(1.5vh) scale(1.03); }
-      100%{ transform: translateX(140vw) translateY(-0.5vh) scale(1.02); }
+      0%{ transform: translateX(0) translateY(0); }
+      20%{ transform: translateX(28vw) translateY(-1vh); }
+      50%{ transform: translateX(70vw) translateY(1.4vh); }
+      100%{ transform: translateX(150vw) translateY(-0.6vh); }
     }
 
-    /* Wing flap animation */
+    /* Wings flap */
     .wing{
-      transform-origin: 60% 55%;
-      animation: flap 0.65s ease-in-out infinite;
+      transform-origin: 58% 55%;
+      animation: flap 0.7s ease-in-out infinite;
     }
-    .wing.slow{ animation-duration: 0.9s; }
-    .wing.fast{ animation-duration: 0.55s; }
+    .fast{ animation-duration: 0.55s; }
+    .slow{ animation-duration: 0.9s; }
 
     @keyframes flap{
       0%,100%{ transform: rotate(0deg) scaleY(1); }
-      50%{ transform: rotate(-10deg) scaleY(0.95); }
+      50%{ transform: rotate(-12deg) scaleY(0.94); }
     }
 
-    /* ===== Question overlay ===== */
-    .question{
+    /* ===== Main dragon (comes to camera) ===== */
+    .mainWrap{
       position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 22px;
+      left:50%;
+      top:55%;
+      transform: translate(-50%, -50%) scale(0.15);
       opacity:0;
+      z-index:20;
       pointer-events:none;
-      transition: opacity 0.8s ease;
-      z-index:30;
+      transition: transform 2.6s ease, opacity 1.2s ease;
     }
-    .question.show{
+
+    .mainWrap.arrive{
       opacity:1;
+      transform: translate(-50%, -50%) scale(1);
       pointer-events:auto;
     }
 
-    .card{
-      width:min(720px, 94vw);
-      padding: 36px 26px;
-      border-radius: 26px;
-      background: rgba(8, 14, 26, 0.55);
-      border: 1px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 50px 140px rgba(0,0,0,0.55);
-      text-align:center;
-      transform: translateY(14px);
-      animation: cardFloat 5s ease-in-out infinite;
-    }
-    @keyframes cardFloat{
-      0%,100%{ transform: translateY(14px); }
-      50%{ transform: translateY(6px); }
+    .mainDragon{
+      width:min(520px, 92vw);
+      height:auto;
+      cursor:pointer;
+      filter: drop-shadow(0 30px 70px rgba(0,0,0,0.55));
+      user-select:none;
     }
 
-    h1{
+    .mainDragon:active{
+      transform: scale(0.99);
+    }
+
+    /* ===== Text overlays ===== */
+    .textBox{
+      position:absolute;
+      left:50%;
+      top:78%;
+      transform: translateX(-50%);
+      width:min(900px, 92vw);
+      text-align:center;
+      opacity:0;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      z-index:30;
+      pointer-events:none;
+    }
+
+    .textBox.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(-10px);
+      pointer-events:auto;
+    }
+
+    .line1{
       font-family: "Baloo 2", cursive;
       font-weight:800;
-      font-size: clamp(2rem, 5.2vw, 3.3rem);
-      line-height:1.05;
-      margin-bottom: 14px;
+      font-size: clamp(1.7rem, 4.4vw, 2.6rem);
+      line-height:1.08;
       letter-spacing:-0.02em;
+      text-shadow: 0 16px 60px rgba(0,0,0,0.65);
     }
 
-    p{
-      color: rgba(255,255,255,0.78);
-      font-size: 1.1rem;
-      line-height:1.6;
-      margin-bottom: 18px;
+    .line2{
+      margin-top: 10px;
+      font-size: 1.08rem;
+      opacity:0.78;
     }
 
-    .btns{
-      display:flex;
-      gap: 12px;
-      justify-content:center;
-      flex-wrap:wrap;
-      margin-top: 6px;
-    }
-
-    button{
-      border:none;
-      cursor:pointer;
-      padding: 14px 18px;
-      border-radius: 999px;
-      font-weight: 700;
+    .clickHint{
+      margin-top: 10px;
       font-size: 1rem;
-      transition: transform 0.14s ease, opacity 0.14s ease;
+      opacity:0.62;
     }
 
-    .yes{
-      background: rgba(120,220,255,0.18);
-      color: rgba(255,255,255,0.92);
-      border: 1px solid rgba(120,220,255,0.35);
+    /* ===== Smile state ===== */
+    .tongue{
+      opacity:0;
+      transform: translateY(-4px) scale(0.9);
+      transform-origin: center;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .smile .tongue{
+      opacity:1;
+      transform: translateY(0px) scale(1);
     }
 
-    .no{
-      background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.7);
-      border: 1px solid rgba(255,255,255,0.10);
+    .eyeGlow{
+      opacity:0.65;
+      transition: opacity 0.25s ease;
+    }
+    .smile .eyeGlow{
+      opacity:1;
     }
 
-    .yes:hover, .no:hover{ transform: translateY(-2px); }
-    .yes:active, .no:active{ transform: translateY(0px); }
-
-    .hint{
-      margin-top: 14px;
-      font-size: 0.95rem;
-      opacity:0.6;
+    /* subtle bounce on click */
+    .bounce{
+      animation: bounce 0.45s ease;
+    }
+    @keyframes bounce{
+      0%{ transform: translate(-50%, -50%) scale(1); }
+      45%{ transform: translate(-50%, -50%) scale(1.04); }
+      100%{ transform: translate(-50%, -50%) scale(1); }
     }
 
-    .shake{ animation: shake 0.35s ease; }
-    @keyframes shake{
-      0%{ transform: translateX(0); }
-      25%{ transform: translateX(-6px); }
-      50%{ transform: translateX(6px); }
-      75%{ transform: translateX(-4px); }
-      100%{ transform: translateX(0); }
-    }
-
-    /* Mobile tweaks */
+    /* mobile */
     @media (max-width: 520px){
       .moon{ width: 105px; height: 105px; right: 10%; }
-      .main{ width: 200px; }
+      .textBox{ top: 80%; }
     }
   </style>
 </head>
 
 <body>
-  <div class="scene opening" id="scene">
+  <div class="scene opening push" id="scene">
 
     <div class="world" id="world">
       <div class="sky"></div>
       <div class="stars"></div>
       <div class="moon"></div>
 
-      <div class="cloudLayer"></div>
-      <div class="cloudLayer two"></div>
+      <div class="fog"></div>
+      <div class="fog two"></div>
 
-      <div class="dragons" id="dragons">
-        <!-- Smaller dragons -->
-        <div class="dragon d1">${dragonSVG("slow")}</div>
-        <div class="dragon d2">${dragonSVG("fast")}</div>
-        <div class="dragon d3">${dragonSVG("slow")}</div>
-        <div class="dragon d4">${dragonSVG("fast")}</div>
-        <div class="dragon d5">${dragonSVG("slow")}</div>
-        <div class="dragon d6">${dragonSVG("fast")}</div>
-
-        <!-- Main cute black dragon -->
-        <div class="dragon main">${mainDragonSVG()}</div>
-      </div>
+      <!-- background dragons -->
+      <div class="bgDragons" id="bgDragons"></div>
 
       <div class="mountains"></div>
     </div>
 
-    <div class="tear"></div>
-    <div class="ripple"></div>
+    <!-- main dragon -->
+    <div class="mainWrap" id="mainWrap">
+      <svg class="mainDragon" id="mainDragon" viewBox="0 0 520 320" xmlns="http://www.w3.org/2000/svg">
+        <!-- body shadow -->
+        <defs>
+          <radialGradient id="faceShade" cx="35%" cy="35%" r="75%">
+            <stop offset="0%" stop-color="rgba(40,40,46,0.95)"/>
+            <stop offset="55%" stop-color="rgba(10,10,12,0.98)"/>
+            <stop offset="100%" stop-color="rgba(0,0,0,1)"/>
+          </radialGradient>
 
-    <div class="question" id="question">
-      <div class="card" id="card">
-        <h1>Okay… be honest.</h1>
-        <p>Toothless energy is undefeated right? 😭</p>
+          <radialGradient id="eyeLight" cx="40%" cy="35%" r="70%">
+            <stop offset="0%" stop-color="rgba(170,255,220,1)"/>
+            <stop offset="100%" stop-color="rgba(40,200,140,0.65)"/>
+          </radialGradient>
+        </defs>
 
-        <div class="btns">
-          <button class="yes" id="yesBtn">YES OBVIOUSLY 😤</button>
-          <button class="no" id="noBtn">no…</button>
-        </div>
+        <!-- head -->
+        <path d="M92 180
+                 C120 110, 200 70, 280 84
+                 C360 98, 422 150, 438 210
+                 C456 276, 400 310, 310 300
+                 C220 290, 150 260, 112 228
+                 C88 206, 82 194, 92 180Z"
+              fill="url(#faceShade)"/>
 
-        <div class="hint">Answer correctly to continue →</div>
+        <!-- ears/horns (original shape) -->
+        <path d="M150 120 C135 86, 120 72, 112 78 C116 98, 126 122, 150 142Z"
+              fill="rgba(0,0,0,0.96)"/>
+        <path d="M206 98 C198 62, 178 46, 170 54 C176 78, 188 106, 206 122Z"
+              fill="rgba(0,0,0,0.95)"/>
+
+        <path d="M340 102 C346 62, 366 46, 374 54 C368 78, 356 106, 340 122Z"
+              fill="rgba(0,0,0,0.95)"/>
+        <path d="M392 126 C410 92, 430 76, 440 84 C434 104, 420 126, 392 146Z"
+              fill="rgba(0,0,0,0.96)"/>
+
+        <!-- cheeks -->
+        <path d="M150 212 C180 240, 230 258, 280 260 C330 262, 372 246, 404 218"
+              fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8" stroke-linecap="round"/>
+
+        <!-- eyes -->
+        <ellipse cx="220" cy="180" rx="44" ry="40" fill="rgba(10,10,10,0.95)"/>
+        <ellipse cx="340" cy="180" rx="44" ry="40" fill="rgba(10,10,10,0.95)"/>
+
+        <!-- eye glow -->
+        <circle class="eyeGlow" cx="232" cy="190" r="12" fill="url(#eyeLight)"/>
+        <circle class="eyeGlow" cx="352" cy="190" r="12" fill="url(#eyeLight)"/>
+
+        <!-- pupils -->
+        <circle cx="232" cy="190" r="7" fill="rgba(0,0,0,0.9)"/>
+        <circle cx="352" cy="190" r="7" fill="rgba(0,0,0,0.9)"/>
+
+        <!-- eye shine -->
+        <circle cx="218" cy="170" r="8" fill="rgba(255,255,255,0.75)"/>
+        <circle cx="338" cy="170" r="8" fill="rgba(255,255,255,0.75)"/>
+
+        <!-- nostrils -->
+        <ellipse cx="272" cy="220" rx="10" ry="7" fill="rgba(255,255,255,0.06)"/>
+        <ellipse cx="308" cy="220" rx="10" ry="7" fill="rgba(255,255,255,0.06)"/>
+
+        <!-- smile line -->
+        <path d="M210 240
+                 C250 270, 310 270, 350 240"
+              fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="8" stroke-linecap="round"/>
+
+        <!-- tongue (hidden until click) -->
+        <path class="tongue" d="M260 248
+                 C272 270, 300 270, 314 250
+                 C302 286, 270 292, 260 248Z"
+              fill="rgba(255,120,160,0.85)"/>
+      </svg>
+    </div>
+
+    <!-- text -->
+    <div class="textBox" id="textBox">
+      <div class="line1" id="line1">
+        The night you made me watch How To Train Your Dragon…
+        <br/>
+        is a core memory of us.
       </div>
+      <div class="line2" id="line2">Click him.</div>
+      <div class="clickHint" id="hint">💫 (He’s judging you a little)</div>
     </div>
 
   </div>
 
   <script>
-    const scene = document.getElementById("scene");
-    const question = document.getElementById("question");
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const card = document.getElementById("card");
+    const bgDragons = document.getElementById("bgDragons");
+    const mainWrap = document.getElementById("mainWrap");
+    const mainDragon = document.getElementById("mainDragon");
+    const textBox = document.getElementById("textBox");
+    const line1 = document.getElementById("line1");
+    const line2 = document.getElementById("line2");
+    const hint = document.getElementById("hint");
 
-    // --- Timeline ---
-    setTimeout(() => {
-      scene.classList.add("rumble");
-    }, 400);
+    let clicked = false;
 
-    setTimeout(() => {
-      scene.classList.add("push");
-    }, 2200);
-
-    setTimeout(() => {
-      question.classList.add("show");
-    }, 4900);
-
-    yesBtn.addEventListener("click", () => {
-      window.location.href = "sudoku.html";
-    });
-
-    noBtn.addEventListener("click", () => {
-      card.classList.remove("shake");
-      void card.offsetWidth;
-      card.classList.add("shake");
-
-      yesBtn.style.transform = "scale(1.14)";
-      noBtn.style.transform = "scale(0.92)";
-      noBtn.style.opacity = "0.55";
-
-      yesBtn.textContent = "YES. (correct answer) 😌";
-    });
-
-    // --- SVG injection helpers ---
-    // We keep SVGs as strings so this page is ONE file.
-
-    function dragonSVG(speedClass){
+    // Create background dragons (shadow style)
+    function bgDragonSVG(speedClass){
       return `
         <svg viewBox="0 0 220 120" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <!-- body -->
           <path d="M38 66
                    C58 44, 92 36, 118 46
                    C138 54, 150 56, 168 48
                    C160 64, 146 76, 124 80
                    C92 86, 62 82, 38 66Z"
-                fill="rgba(10,10,14,0.95)"/>
-          <!-- head -->
+                fill="rgba(0,0,0,0.9)"/>
           <path d="M168 48
                    C184 38, 200 40, 206 52
                    C198 60, 188 64, 176 60
                    C172 56, 170 52, 168 48Z"
-                fill="rgba(10,10,14,0.95)"/>
-          <!-- tail -->
+                fill="rgba(0,0,0,0.9)"/>
           <path d="M38 66
                    C22 74, 16 84, 18 92
                    C30 88, 44 82, 52 74Z"
-                fill="rgba(10,10,14,0.92)"/>
+                fill="rgba(0,0,0,0.85)"/>
 
-          <!-- wings -->
           <g class="wing ${speedClass}">
             <path d="M88 52
                      C64 22, 38 20, 24 36
                      C38 40, 52 52, 60 66
                      C70 60, 80 56, 88 52Z"
-                  fill="rgba(12,12,18,0.92)"/>
+                  fill="rgba(0,0,0,0.88)"/>
             <path d="M104 56
                      C88 22, 68 10, 52 18
                      C68 28, 78 44, 84 64
                      C92 60, 98 58, 104 56Z"
-                  fill="rgba(12,12,18,0.72)"/>
+                  fill="rgba(0,0,0,0.62)"/>
           </g>
         </svg>
       `;
     }
 
-    function mainDragonSVG(){
-      return `
-        <svg viewBox="0 0 260 150" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <!-- main body -->
-          <path d="M52 86
-                   C78 56, 118 48, 150 62
-                   C168 70, 184 74, 208 64
-                   C200 86, 182 104, 150 108
-                   C112 114, 78 108, 52 86Z"
-                fill="rgba(0,0,0,0.98)"/>
-
-          <!-- cute head -->
-          <path d="M208 64
-                   C228 50, 248 54, 254 72
-                   C244 88, 228 92, 214 84
-                   C210 78, 208 72, 208 64Z"
-                fill="rgba(0,0,0,0.98)"/>
-
-          <!-- ears/horns -->
-          <path d="M226 52 L214 40 L222 62Z" fill="rgba(0,0,0,0.95)"/>
-          <path d="M238 54 L232 38 L230 66Z" fill="rgba(0,0,0,0.92)"/>
-
-          <!-- tail -->
-          <path d="M52 86
-                   C28 96, 20 112, 26 126
-                   C42 116, 62 106, 70 96Z"
-                fill="rgba(0,0,0,0.95)"/>
-
-          <!-- wings -->
-          <g class="wing slow">
-            <path d="M118 70
-                     C86 30, 48 28, 28 52
-                     C54 58, 74 78, 84 100
-                     C96 86, 108 78, 118 70Z"
-                  fill="rgba(0,0,0,0.96)"/>
-            <path d="M140 76
-                     C118 28, 86 10, 60 24
-                     C92 40, 106 64, 112 104
-                     C124 92, 132 84, 140 76Z"
-                  fill="rgba(0,0,0,0.72)"/>
-          </g>
-
-          <!-- tiny glowing eyes (subtle cute) -->
-          <circle cx="236" cy="74" r="4" fill="rgba(140,255,190,0.9)"/>
-          <circle cx="224" cy="72" r="4" fill="rgba(140,255,190,0.9)"/>
-        </svg>
-      `;
+    function spawnBG(){
+      const classes = ["bg1","bg2","bg3","bg4","bg5"];
+      classes.forEach((c, i) => {
+        const el = document.createElement("div");
+        el.className = `bgDragon ${c}`;
+        const speed = (i % 2 === 0) ? "slow" : "fast";
+        el.innerHTML = bgDragonSVG(speed);
+        bgDragons.appendChild(el);
+      });
     }
 
-    // Inject SVG strings into the placeholders
-    // (because HTML doesn't allow calling JS inside markup directly)
-    const dragonEls = document.querySelectorAll(".dragon");
-    dragonEls.forEach(el => {
-      if(el.classList.contains("main")){
-        el.innerHTML = mainDragonSVG();
+    spawnBG();
+
+    // Timeline:
+    // Let bg dragons fly for a few seconds
+    setTimeout(() => {
+      mainWrap.classList.add("arrive");
+    }, 3800);
+
+    setTimeout(() => {
+      textBox.classList.add("show");
+    }, 5200);
+
+    // Click dragon
+    mainDragon.addEventListener("click", () => {
+      mainWrap.classList.remove("bounce");
+      void mainWrap.offsetWidth;
+      mainWrap.classList.add("bounce");
+
+      if(!clicked){
+        clicked = true;
+        mainDragon.classList.add("smile");
+        line1.innerHTML = "Looking forward to watching more movies with you 🖤";
+        line2.innerHTML = "Okay… now you can continue.";
+        hint.innerHTML = "Click him again →";
+
       } else {
-        // alternate flap speed
-        const speed = el.classList.contains("d2") || el.classList.contains("d4") || el.classList.contains("d6")
-          ? "fast" : "slow";
-        el.innerHTML = dragonSVG(speed);
+        window.location.href = "sudoku.html";
       }
     });
   </script>
