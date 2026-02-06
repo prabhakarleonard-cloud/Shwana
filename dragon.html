@@ -3,54 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dragon World</title>
+  <title>Dragon Portal</title>
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --ink: rgba(255,255,255,0.92);
-      --soft: rgba(255,255,255,0.70);
-      --card: rgba(10, 18, 30, 0.42);
-      --border: rgba(255,255,255,0.10);
-      --shadow: 0 30px 90px rgba(0,0,0,0.55);
-    }
-
-    *{ box-sizing:border-box; margin:0; padding:0; }
-
+    *{margin:0;padding:0;box-sizing:border-box;}
     body{
-      min-height:100vh;
+      height:100vh;
       overflow:hidden;
+      background:#000;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      background: #050812;
-      color: var(--ink);
+      color: rgba(255,255,255,0.92);
     }
 
-    /* ===== Cinematic intro overlay ===== */
-    .intro{
+    /* ===== Scene ===== */
+    .scene{
       position:fixed;
       inset:0;
-      z-index:999;
-      background: #000;
-      animation: fadeOut 1.2s ease forwards;
-      animation-delay: 0.25s;
-    }
-    @keyframes fadeOut{
-      to{ opacity:0; pointer-events:none; }
+      background:#000;
     }
 
-    /* ===== World ===== */
+    /* ===== Dragon world behind portal ===== */
     .world{
-      position:fixed;
+      position:absolute;
       inset:0;
       background:
-        radial-gradient(circle at 30% 20%, rgba(90,160,255,0.16), transparent 45%),
-        radial-gradient(circle at 70% 35%, rgba(120,220,255,0.10), transparent 55%),
+        radial-gradient(circle at 30% 20%, rgba(90,160,255,0.22), transparent 45%),
+        radial-gradient(circle at 70% 30%, rgba(140,220,255,0.14), transparent 55%),
         radial-gradient(circle at 50% 120%, rgba(0,0,0,0.95), rgba(0,0,0,0.2)),
-        linear-gradient(180deg, #050812 0%, #081a2d 45%, #050812 100%);
+        linear-gradient(180deg, #03040b 0%, #081a2d 45%, #02030a 100%);
+      transform: scale(1.18);
+      filter: saturate(1.08);
+      opacity:0;
+      transition: opacity 1.2s ease;
     }
 
     /* Stars */
@@ -70,7 +58,7 @@
     }
     @keyframes twinkle{
       0%,100%{ opacity:0.55; }
-      50%{ opacity:0.9; }
+      50%{ opacity:0.95; }
     }
 
     /* Fog */
@@ -78,16 +66,16 @@
       position:absolute;
       inset:-40%;
       background:
-        radial-gradient(circle at 20% 40%, rgba(255,255,255,0.06), transparent 55%),
-        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.04), transparent 60%),
-        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.05), transparent 55%);
-      filter: blur(32px);
-      animation: drift 14s ease-in-out infinite;
-      opacity:0.9;
+        radial-gradient(circle at 20% 40%, rgba(255,255,255,0.08), transparent 55%),
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.06), transparent 60%),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.07), transparent 55%);
+      filter: blur(42px);
+      animation: drift 12s ease-in-out infinite;
+      opacity:0.85;
     }
     @keyframes drift{
       0%{ transform: translate3d(-2%, -2%, 0) scale(1.05); }
-      50%{ transform: translate3d(2%, 1%, 0) scale(1.1); }
+      50%{ transform: translate3d(2%, 1%, 0) scale(1.14); }
       100%{ transform: translate3d(-2%, -2%, 0) scale(1.05); }
     }
 
@@ -97,10 +85,10 @@
       left:0;
       right:0;
       bottom:-1px;
-      height: 46vh;
+      height: 48vh;
       background:
-        linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.65)),
-        linear-gradient(180deg, #0a0f1c 0%, #050812 100%);
+        linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.75)),
+        linear-gradient(180deg, #0a0f1c 0%, #02030a 100%);
       clip-path: polygon(
         0% 100%,
         0% 55%,
@@ -117,55 +105,6 @@
         100% 100%
       );
       opacity:0.98;
-    }
-
-    /* Tiny dragon silhouette (pure CSS) */
-    .dragon{
-      position:absolute;
-      top: 18%;
-      right: 12%;
-      width: 160px;
-      height: 160px;
-      opacity:0.12;
-      filter: blur(0.2px);
-      animation: dragonFloat 6s ease-in-out infinite;
-    }
-
-    @keyframes dragonFloat{
-      0%,100%{ transform: translateY(0px) rotate(-2deg); }
-      50%{ transform: translateY(10px) rotate(2deg); }
-    }
-
-    /* This is a cute “toothless-ish” silhouette without using assets */
-    .dragon::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: rgba(255,255,255,0.85);
-      clip-path: polygon(
-        48% 20%,
-        58% 26%,
-        66% 35%,
-        76% 40%,
-        86% 36%,
-        80% 50%,
-        70% 56%,
-        62% 52%,
-        56% 60%,
-        60% 74%,
-        52% 78%,
-        44% 72%,
-        40% 60%,
-        34% 52%,
-        26% 56%,
-        18% 50%,
-        12% 36%,
-        24% 40%,
-        34% 35%,
-        42% 26%
-      );
-      border-radius: 30px;
-      filter: blur(0.8px);
     }
 
     /* Floating particles */
@@ -185,143 +124,362 @@
       100%{ transform: translateY(-70vh); opacity:0; }
     }
 
-    /* ===== Card ===== */
-    .wrap{
-      position:relative;
+    /* ===== Toothless eyes in fog (subtle) ===== */
+    .eyes{
+      position:absolute;
+      left:50%;
+      top:42%;
+      transform: translate(-50%, -50%);
+      width: 220px;
+      height: 90px;
+      opacity:0;
+      transition: opacity 1.2s ease;
+      filter: blur(0.3px);
+      pointer-events:none;
+    }
+    .eye{
+      position:absolute;
+      top: 18px;
+      width: 42px;
+      height: 26px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 40% 40%, rgba(180,255,160,0.95), rgba(60,180,120,0.25), transparent 70%);
+      box-shadow: 0 0 22px rgba(120,255,170,0.22);
+      opacity:0.85;
+      animation: blink 6.5s ease-in-out infinite;
+    }
+    .eye.left{ left: 46px; }
+    .eye.right{ right: 46px; }
+
+    @keyframes blink{
+      0%, 92%, 100%{ transform: scaleY(1); }
+      94%{ transform: scaleY(0.08); }
+      96%{ transform: scaleY(1); }
+    }
+
+    .showEyes .eyes{
+      opacity:0.25; /* subtle */
+    }
+
+    /* ===== Portal tear ===== */
+    .tear{
+      position:absolute;
+      top:50%;
+      left:50%;
+      width: 18px;
+      height: 280px;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      background: linear-gradient(180deg,
+        rgba(180,230,255,0.0),
+        rgba(180,230,255,0.95),
+        rgba(180,230,255,0.0)
+      );
+      box-shadow:
+        0 0 30px rgba(120,220,255,0.45),
+        0 0 90px rgba(120,220,255,0.18);
+      opacity:0;
       z-index:10;
-      min-height:100vh;
+    }
+
+    /* Rip edges */
+    .tear::before,
+    .tear::after{
+      content:"";
+      position:absolute;
+      top:0;
+      bottom:0;
+      width: 28px;
+      background: rgba(255,255,255,0.05);
+      opacity:0.9;
+      filter: blur(0.2px);
+    }
+    .tear::before{
+      left:-26px;
+      clip-path: polygon(100% 0%, 40% 6%, 90% 14%, 30% 24%, 95% 34%, 35% 46%, 92% 58%, 40% 68%, 96% 80%, 50% 92%, 100% 100%);
+    }
+    .tear::after{
+      right:-26px;
+      clip-path: polygon(0% 0%, 60% 8%, 10% 16%, 70% 26%, 5% 38%, 65% 48%, 12% 62%, 72% 70%, 8% 84%, 55% 92%, 0% 100%);
+    }
+
+    /* Fabric ripple overlay */
+    .ripple{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      z-index:11;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06), transparent 55%),
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,0.02),
+          rgba(255,255,255,0.02) 3px,
+          transparent 3px,
+          transparent 10px
+        );
+      mix-blend-mode: overlay;
+      filter: blur(1px);
+    }
+
+    /* ===== Animations ===== */
+    .opening .tear{
+      opacity:1;
+      animation: openTear 2.1s ease forwards;
+    }
+
+    .opening .ripple{
+      opacity:1;
+      animation: ripple 2.4s ease forwards;
+    }
+
+    @keyframes ripple{
+      0%{ transform: scale(0.95); opacity:0; }
+      30%{ opacity:0.55; }
+      100%{ transform: scale(1.08); opacity:0; }
+    }
+
+    @keyframes openTear{
+      0%{
+        width: 12px;
+        height: 220px;
+        opacity:0;
+      }
+      15%{ opacity:1; }
+      100%{
+        width: 82vw;
+        height: 92vh;
+        opacity:1;
+        border-radius: 26px;
+      }
+    }
+
+    /* World fade in */
+    .opening .world{ opacity:1; }
+
+    /* Camera push-in */
+    .push .world{
+      transform: scale(1.38);
+      transition: transform 2.6s ease;
+    }
+
+    /* Screen rumble */
+    .rumble{
+      animation: rumble 0.5s ease;
+    }
+    @keyframes rumble{
+      0%{ transform: translate(0,0); }
+      20%{ transform: translate(-3px,2px); }
+      40%{ transform: translate(2px,-2px); }
+      60%{ transform: translate(-2px,-1px); }
+      80%{ transform: translate(2px,1px); }
+      100%{ transform: translate(0,0); }
+    }
+
+    /* ===== Question overlay ===== */
+    .question{
+      position:absolute;
+      inset:0;
       display:flex;
       align-items:center;
       justify-content:center;
       padding: 22px;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity 0.8s ease;
+      z-index:30;
+    }
+
+    .question.show{
+      opacity:1;
+      pointer-events:auto;
     }
 
     .card{
-      width:min(820px, 94vw);
-      padding: 56px 38px;
-      border-radius: 30px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
+      width:min(720px, 94vw);
+      padding: 36px 26px;
+      border-radius: 26px;
+      background: rgba(8, 14, 26, 0.55);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 50px 140px rgba(0,0,0,0.55);
       text-align:center;
 
-      transform: translateY(18px);
-      opacity:0;
-      animation: enter 1.15s ease forwards;
-      animation-delay: 0.35s;
+      transform: translateY(14px);
+      animation: cardFloat 5s ease-in-out infinite;
     }
 
-    @keyframes enter{
-      to{ transform: translateY(0); opacity:1; }
+    @keyframes cardFloat{
+      0%,100%{ transform: translateY(14px); }
+      50%{ transform: translateY(6px); }
     }
 
     h1{
       font-family: "Baloo 2", cursive;
-      font-weight: 800;
-      font-size: clamp(2.2rem, 6vw, 4.2rem);
+      font-weight:800;
+      font-size: clamp(2rem, 5.2vw, 3.3rem);
+      line-height:1.05;
+      margin-bottom: 14px;
       letter-spacing:-0.02em;
-      line-height: 1.05;
+    }
+
+    p{
+      color: rgba(255,255,255,0.78);
+      font-size: 1.1rem;
+      line-height:1.6;
       margin-bottom: 18px;
-      text-shadow: 0 20px 60px rgba(0,0,0,0.55);
     }
 
-    .lines{
-      font-size: clamp(1.05rem, 2.4vw, 1.25rem);
-      color: var(--soft);
-      line-height: 1.65;
-      margin-bottom: 22px;
+    .btns{
+      display:flex;
+      gap: 12px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top: 6px;
     }
 
-    .lines span{
-      display:block;
-      margin: 6px 0;
-    }
-
-    .toothless{
-      margin-top: 10px;
-      font-size: 0.98rem;
-      opacity:0.75;
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
+    button{
+      border:none;
+      cursor:pointer;
       padding: 14px 18px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.92);
-      cursor:pointer;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 1rem;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-      user-select:none;
-      box-shadow: 0 18px 55px rgba(0,0,0,0.35);
+      transition: transform 0.14s ease, opacity 0.14s ease;
     }
 
-    .btn:hover{
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.12);
-    }
-    .btn:active{
-      transform: translateY(0px);
+    .yes{
+      background: rgba(120,220,255,0.18);
+      color: rgba(255,255,255,0.92);
+      border: 1px solid rgba(120,220,255,0.35);
     }
 
-    .tiny{
-      margin-top: 16px;
-      font-size: 0.92rem;
+    .no{
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .yes:hover, .no:hover{ transform: translateY(-2px); }
+    .yes:active, .no:active{ transform: translateY(0px); }
+
+    .hint{
+      margin-top: 14px;
+      font-size: 0.95rem;
       opacity:0.6;
+    }
+
+    .shake{ animation: shake 0.35s ease; }
+    @keyframes shake{
+      0%{ transform: translateX(0); }
+      25%{ transform: translateX(-6px); }
+      50%{ transform: translateX(6px); }
+      75%{ transform: translateX(-4px); }
+      100%{ transform: translateX(0); }
     }
   </style>
 </head>
 
 <body>
+  <div class="scene opening" id="scene">
 
-  <div class="intro"></div>
+    <div class="world" id="world">
+      <div class="stars"></div>
+      <div class="fog"></div>
 
-  <div class="world">
-    <div class="stars"></div>
-    <div class="fog"></div>
-    <div class="dragon"></div>
-    <div class="mountains"></div>
-
-    <!-- Particles -->
-    <div class="particle" style="left:12%; animation-delay:0s;"></div>
-    <div class="particle" style="left:22%; animation-delay:2s;"></div>
-    <div class="particle" style="left:38%; animation-delay:4s;"></div>
-    <div class="particle" style="left:55%; animation-delay:1s;"></div>
-    <div class="particle" style="left:70%; animation-delay:3s;"></div>
-    <div class="particle" style="left:86%; animation-delay:5s;"></div>
-  </div>
-
-  <div class="wrap">
-    <main class="card">
-      <h1>How To Train Your Dragon.</h1>
-
-      <div class="lines">
-        <span>You put me onto it.</span>
-        <span>So I brought you here.</span>
+      <div class="eyes" id="eyes">
+        <div class="eye left"></div>
+        <div class="eye right"></div>
       </div>
 
-      <div class="toothless">(and yes… Toothless is ridiculously cute.)</div>
+      <div class="mountains"></div>
+    </div>
 
-      <div style="height:26px;"></div>
+    <div class="tear" id="tear"></div>
+    <div class="ripple" id="ripple"></div>
 
-      <button class="btn" onclick="goNext()">
-        keep going →
-      </button>
+    <div class="question" id="question">
+      <div class="card" id="card">
+        <h1>Okay… be honest.</h1>
+        <p>
+          Toothless is ridiculously cute right? 😭
+        </p>
 
-      <div class="tiny">next: something else you like 😌</div>
-    </main>
+        <div class="btns">
+          <button class="yes" id="yesBtn">YES OBVIOUSLY 😤</button>
+          <button class="no" id="noBtn">no…</button>
+        </div>
+
+        <div class="hint">Answer correctly to continue →</div>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    function goNext(){
-      window.location.href = "sudoku.html";
-    }
-  </script>
+    const scene = document.getElementById("scene");
+    const question = document.getElementById("question");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const card = document.getElementById("card");
 
+    // Create particles
+    const world = document.getElementById("world");
+    for(let i=0;i<14;i++){
+      const p = document.createElement("div");
+      p.className = "particle";
+      p.style.left = Math.random()*100 + "%";
+      p.style.animationDuration = (8 + Math.random()*8) + "s";
+      p.style.animationDelay = (Math.random()*4) + "s";
+      p.style.transform = "translateY(" + (30 + Math.random()*60) + "vh)";
+      world.appendChild(p);
+    }
+
+    // Optional: tiny "whoosh" sound
+    // NOTE: Autoplay audio is blocked on many mobiles unless user taps.
+    const whoosh = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_2d0cdbefdf.mp3?filename=whoosh-6316.mp3");
+    whoosh.volume = 0.25;
+
+    // Timeline:
+    // 0.4s: rumble + attempt whoosh
+    // 2.2s: push in
+    // 3.1s: show eyes briefly
+    // 4.9s: show question
+    setTimeout(() => {
+      scene.classList.add("rumble");
+      // try play (may fail due to autoplay rules)
+      whoosh.play().catch(()=>{});
+    }, 400);
+
+    setTimeout(() => {
+      scene.classList.add("push");
+    }, 2200);
+
+    setTimeout(() => {
+      scene.classList.add("showEyes");
+      setTimeout(()=> scene.classList.remove("showEyes"), 1600);
+    }, 3100);
+
+    setTimeout(() => {
+      question.classList.add("show");
+    }, 4900);
+
+    yesBtn.addEventListener("click", () => {
+      window.location.href = "sudoku.html";
+    });
+
+    noBtn.addEventListener("click", () => {
+      card.classList.remove("shake");
+      void card.offsetWidth;
+      card.classList.add("shake");
+
+      yesBtn.style.transform = "scale(1.14)";
+      noBtn.style.transform = "scale(0.92)";
+      noBtn.style.opacity = "0.55";
+
+      yesBtn.textContent = "YES. (correct answer) 😌";
+    });
+  </script>
 </body>
 </html>
