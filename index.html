@@ -26,9 +26,6 @@
 
     body{
       min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
       color: var(--ink);
       overflow:hidden;
@@ -38,7 +35,77 @@
         linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
     }
 
-    /* Floating hearts */
+    /* ======= DRAGON WORLD BEHIND (revealed on tear) ======= */
+    .dragon-behind{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), transparent 35%),
+        radial-gradient(circle at 70% 40%, rgba(255,255,255,0.12), transparent 40%),
+        linear-gradient(180deg, #0b1a2e 0%, #152b48 45%, #0a0f18 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      opacity:0;
+      transition: opacity 0.7s ease;
+    }
+
+    .dragon-behind .hint{
+      font-family: "Baloo 2", cursive;
+      font-weight:800;
+      font-size: clamp(1.4rem, 4vw, 2.6rem);
+      letter-spacing:-0.02em;
+      opacity:0.9;
+      text-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+
+    /* ======= FRONT WORLD (splits open) ======= */
+    .front-world{
+      position:fixed;
+      inset:0;
+      z-index:2;
+    }
+
+    .panel{
+      position:absolute;
+      top:0;
+      width:50%;
+      height:100%;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 15% 20%, #fff 0%, transparent 35%),
+        radial-gradient(circle at 85% 30%, #fff 0%, transparent 40%),
+        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      transition: transform 0.9s cubic-bezier(.2,.9,.2,1);
+    }
+
+    .panel.left{ left:0; }
+    .panel.right{ right:0; }
+
+    /* crack line */
+    .tear-line{
+      position:absolute;
+      top:0;
+      left:50%;
+      width:3px;
+      height:100%;
+      transform: translateX(-50%);
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.0),
+        rgba(255,255,255,0.9),
+        rgba(255,255,255,0.0)
+      );
+      opacity:0.65;
+      filter: blur(0.4px);
+      z-index:3;
+      transition: opacity 0.4s ease;
+      pointer-events:none;
+    }
+
+    /* ======= Floating hearts ======= */
     .heart{
       position:absolute;
       width:18px;
@@ -68,7 +135,33 @@
       100% { transform: translateY(-80vh) rotate(45deg) scale(1.15); opacity:0; }
     }
 
-    /* Main card */
+    /* ======= Sparkles ======= */
+    .sparkle{
+      position:absolute;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 0 18px rgba(255,255,255,0.8);
+      animation: twinkle 3s ease-in-out infinite;
+      opacity:0.7;
+    }
+    @keyframes twinkle{
+      0%, 100% { transform: scale(0.9); opacity:0.45; }
+      50% { transform: scale(1.2); opacity:0.9; }
+    }
+
+    /* ======= Card ======= */
+    .card-wrap{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 20px;
+      z-index:4;
+    }
+
     .card{
       width:min(720px, 92vw);
       padding: 52px 36px;
@@ -106,32 +199,45 @@
       font-weight: 400;
     }
 
-    .sub span{
-      display:block;
+    .sub span{ display:block; }
+
+    /* ======= Buttons ======= */
+    .btn-row{
+      display:flex;
+      gap:14px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top: 6px;
     }
 
-    .cta{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 14px 18px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.75);
-      border: 1px solid rgba(0,0,0,0.06);
+    .btn{
+      border:0;
       cursor:pointer;
-      font-weight: 500;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
       user-select:none;
     }
 
-    .cta:hover{
-      transform: translateY(-2px);
+    .btn:active{ transform: translateY(1px); }
+
+    .btn-forward{
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(0,0,0,0.06);
       box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      min-width: 190px;
     }
 
-    .cta:active{
-      transform: translateY(0px);
+    .btn-forfeit{
+      background: rgba(255, 120, 170, 0.18);
+      border: 1px solid rgba(255, 120, 170, 0.35);
+      color:#2b2b2b;
+      min-width: 150px;
     }
+
+    .btn:hover{ transform: translateY(-2px); }
 
     .tiny{
       margin-top: 18px;
@@ -139,62 +245,182 @@
       opacity: 0.65;
     }
 
-    /* Small sparkle dots */
-    .sparkle{
-      position:absolute;
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background: rgba(255,255,255,0.8);
-      box-shadow: 0 0 18px rgba(255,255,255,0.8);
-      animation: twinkle 3s ease-in-out infinite;
-      opacity:0.7;
+    /* Forfeit bullying effects */
+    .shrink{
+      transform: scale(0.82) !important;
+      opacity:0.55 !important;
+    }
+    .grow{
+      transform: scale(1.10) !important;
+    }
+    .shake{
+      animation: shake 0.35s ease;
+    }
+    @keyframes shake{
+      0%{ transform: translateX(0); }
+      25%{ transform: translateX(-5px); }
+      50%{ transform: translateX(6px); }
+      75%{ transform: translateX(-4px); }
+      100%{ transform: translateX(0); }
     }
 
-    @keyframes twinkle{
-      0%, 100% { transform: scale(0.9); opacity:0.45; }
-      50% { transform: scale(1.2); opacity:0.9; }
+    /* ======= Cat walker ======= */
+    .cat{
+      position:fixed;
+      bottom: 14px;
+      left: -120px;
+      width: 110px;
+      z-index:5;
+      opacity:0.9;
+      pointer-events:none;
+      animation: catWalk 12s linear infinite;
+      filter: drop-shadow(0 12px 18px rgba(0,0,0,0.18));
+    }
+
+    @keyframes catWalk{
+      0% { transform: translateX(-140px); }
+      100% { transform: translateX(calc(100vw + 180px)); }
+    }
+
+    /* ======= Tear animation trigger ======= */
+    .tearing .panel.left{
+      transform: translateX(-105%);
+    }
+    .tearing .panel.right{
+      transform: translateX(105%);
+    }
+    .tearing .tear-line{
+      opacity:0;
+    }
+    .tearing .card{
+      opacity:0;
+      transform: translateY(10px) scale(0.98);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .tearing .dragon-behind{
+      opacity:1;
+    }
+
+    /* Small mobile tweaks */
+    @media (max-width: 420px){
+      .card{ padding: 44px 22px; }
+      .btn-forward{ min-width: 100%; }
+      .btn-forfeit{ min-width: 100%; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Floating hearts -->
-  <div class="heart" style="left:10%; animation-delay:0s;"></div>
-  <div class="heart" style="left:25%; animation-delay:2s; transform:scale(0.8) rotate(45deg);"></div>
-  <div class="heart" style="left:45%; animation-delay:4s; transform:scale(1.1) rotate(45deg);"></div>
-  <div class="heart" style="left:65%; animation-delay:1s; transform:scale(0.9) rotate(45deg);"></div>
-  <div class="heart" style="left:80%; animation-delay:3s; transform:scale(1.2) rotate(45deg);"></div>
-  <div class="heart" style="left:92%; animation-delay:5s; transform:scale(0.7) rotate(45deg);"></div>
+  <!-- Dragon world behind -->
+  <div class="dragon-behind" id="dragonBehind">
+    <div class="hint">welcome to the dragon world 🐉</div>
+  </div>
 
-  <!-- Sparkles -->
-  <div class="sparkle" style="top:12%; left:14%; animation-delay:0s;"></div>
-  <div class="sparkle" style="top:18%; left:82%; animation-delay:1s;"></div>
-  <div class="sparkle" style="top:75%; left:10%; animation-delay:2s;"></div>
-  <div class="sparkle" style="top:70%; left:88%; animation-delay:0.7s;"></div>
+  <!-- Front world (splits open) -->
+  <div class="front-world" id="frontWorld">
 
-  <main class="card">
-    <h1 class="headline">Okay, I did something.</h1>
+    <div class="panel left">
+      <!-- hearts -->
+      <div class="heart" style="left:10%; animation-delay:0s;"></div>
+      <div class="heart" style="left:25%; animation-delay:2s; transform:scale(0.8) rotate(45deg);"></div>
+      <div class="heart" style="left:45%; animation-delay:4s; transform:scale(1.1) rotate(45deg);"></div>
 
-    <p class="sub">
-      <span>You showed me something similar before on Insta.</span>
-      <span>I wanted to make one for you.</span>
-    </p>
-
-    <div class="cta" onclick="goNext()">
-      <span>tap to continue</span>
-      <span style="font-size:1.2rem;">→</span>
+      <!-- sparkles -->
+      <div class="sparkle" style="top:12%; left:14%; animation-delay:0s;"></div>
+      <div class="sparkle" style="top:75%; left:10%; animation-delay:2s;"></div>
     </div>
 
-    <div class="tiny">no pressure. just vibes 🥹</div>
-  </main>
+    <div class="panel right">
+      <!-- hearts -->
+      <div class="heart" style="left:65%; animation-delay:1s; transform:scale(0.9) rotate(45deg);"></div>
+      <div class="heart" style="left:80%; animation-delay:3s; transform:scale(1.2) rotate(45deg);"></div>
+      <div class="heart" style="left:92%; animation-delay:5s; transform:scale(0.7) rotate(45deg);"></div>
+
+      <!-- sparkles -->
+      <div class="sparkle" style="top:18%; left:82%; animation-delay:1s;"></div>
+      <div class="sparkle" style="top:70%; left:88%; animation-delay:0.7s;"></div>
+    </div>
+
+    <div class="tear-line"></div>
+
+    <!-- Main card -->
+    <div class="card-wrap">
+      <main class="card">
+        <h1 class="headline">Okay, I did something.</h1>
+
+        <p class="sub">
+          <span>You showed me something similar before on Insta.</span>
+          <span>I wanted to make one for you.</span>
+        </p>
+
+        <div class="btn-row">
+          <button class="btn btn-forward" id="btnForward">
+            Move forward →
+          </button>
+
+          <button class="btn btn-forfeit" id="btnForfeit">
+            Forfeit 😌
+          </button>
+        </div>
+
+        <div class="tiny" id="tinyText">choose wisely. i’m watching 👀</div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Walking cat -->
+  <img src="cat-walk.gif" alt="walking cat" class="cat" />
 
   <script>
-    function goNext(){
-      // Change this to your next page filename
-      window.location.href = "page2.html";
-    }
+    const btnForward = document.getElementById("btnForward");
+    const btnForfeit = document.getElementById("btnForfeit");
+    const frontWorld = document.getElementById("frontWorld");
+    const tinyText = document.getElementById("tinyText");
+
+    let forfeitClicks = 0;
+    let locked = false;
+
+    btnForfeit.addEventListener("click", () => {
+      if (locked) return;
+
+      forfeitClicks++;
+
+      // playful bullying
+      btnForfeit.classList.add("shake");
+      setTimeout(() => btnForfeit.classList.remove("shake"), 350);
+
+      btnForward.classList.add("grow");
+      btnForfeit.classList.add("shrink");
+
+      if (forfeitClicks === 1) {
+        tinyText.innerText = "nice try 😭 now move forward like a good girl";
+      } else if (forfeitClicks === 2) {
+        tinyText.innerText = "nope. the universe says MOVE FORWARD.";
+        btnForfeit.innerText = "still forfeit? 🥲";
+      } else if (forfeitClicks >= 3) {
+        tinyText.innerText = "okay okay… i removed the option 😌";
+        btnForfeit.disabled = true;
+        btnForfeit.style.opacity = "0.35";
+        btnForfeit.style.cursor = "not-allowed";
+        btnForfeit.innerText = "forfeit (blocked)";
+      }
+    });
+
+    btnForward.addEventListener("click", () => {
+      if (locked) return;
+      locked = true;
+
+      tinyText.innerText = "good choice 😌 opening the portal…";
+
+      // Tear open effect
+      document.body.classList.add("tearing");
+
+      // Wait for animation then go to dragon page
+      setTimeout(() => {
+        window.location.href = "dragon.html";
+      }, 1200);
+    });
   </script>
 
 </body>
