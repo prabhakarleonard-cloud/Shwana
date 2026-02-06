@@ -3,56 +3,199 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Tiny Quest 🐾</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Okay I did something</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#ffd1dc;
+      --bg2:#ffe8f0;
+      --bg3:#fff4f8;
+      --ink:#1f1f1f;
+      --soft:#5a5a5a;
+      --card: rgba(255,255,255,0.55);
+      --border: rgba(255,255,255,0.7);
+      --shadow: 0 20px 60px rgba(0,0,0,0.12);
+    }
+
+    *{ box-sizing:border-box; padding:0; margin:0; }
+
+    body{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--ink);
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 15% 20%, #fff 0%, transparent 35%),
+        radial-gradient(circle at 85% 30%, #fff 0%, transparent 40%),
+        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+    }
+
+    /* Floating hearts */
+    .heart{
+      position:absolute;
+      width:18px;
+      height:18px;
+      background:rgba(255, 120, 170, 0.45);
+      transform: rotate(45deg);
+      border-radius: 4px;
+      filter: blur(0.2px);
+      animation: floatUp 10s linear infinite;
+      opacity:0.7;
+    }
+    .heart::before,
+    .heart::after{
+      content:"";
+      position:absolute;
+      width:18px;
+      height:18px;
+      background:rgba(255, 120, 170, 0.45);
+      border-radius:50%;
+    }
+    .heart::before{ left:-9px; top:0; }
+    .heart::after{ top:-9px; left:0; }
+
+    @keyframes floatUp{
+      0% { transform: translateY(40vh) rotate(45deg) scale(0.9); opacity:0; }
+      15% { opacity:0.7; }
+      100% { transform: translateY(-80vh) rotate(45deg) scale(1.15); opacity:0; }
+    }
+
+    /* Main card */
+    .card{
+      width:min(720px, 92vw);
+      padding: 52px 36px;
+      border-radius: 28px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      text-align:center;
+      position:relative;
+      animation: popIn 0.9s ease forwards;
+      transform: translateY(14px);
+      opacity:0;
+    }
+
+    @keyframes popIn{
+      to{ transform: translateY(0); opacity:1; }
+    }
+
+    .headline{
+      font-family: "Baloo 2", cursive;
+      font-weight: 800;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+      color: #1b1b1b;
+    }
+
+    .sub{
+      font-size: clamp(1rem, 2.3vw, 1.2rem);
+      color: var(--soft);
+      line-height: 1.6;
+      margin-bottom: 26px;
+      font-weight: 400;
+    }
+
+    .sub span{
+      display:block;
+    }
+
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(0,0,0,0.06);
+      cursor:pointer;
+      font-weight: 500;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      user-select:none;
+    }
+
+    .cta:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+
+    .cta:active{
+      transform: translateY(0px);
+    }
+
+    .tiny{
+      margin-top: 18px;
+      font-size: 0.9rem;
+      opacity: 0.65;
+    }
+
+    /* Small sparkle dots */
+    .sparkle{
+      position:absolute;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 0 18px rgba(255,255,255,0.8);
+      animation: twinkle 3s ease-in-out infinite;
+      opacity:0.7;
+    }
+
+    @keyframes twinkle{
+      0%, 100% { transform: scale(0.9); opacity:0.45; }
+      50% { transform: scale(1.2); opacity:0.9; }
+    }
+  </style>
 </head>
+
 <body>
 
-  <!-- Floating sparkles -->
-  <div class="sparkle s1">✦</div>
-  <div class="sparkle s2">✦</div>
-  <div class="sparkle s3">✦</div>
-  <div class="sparkle s4">✦</div>
+  <!-- Floating hearts -->
+  <div class="heart" style="left:10%; animation-delay:0s;"></div>
+  <div class="heart" style="left:25%; animation-delay:2s; transform:scale(0.8) rotate(45deg);"></div>
+  <div class="heart" style="left:45%; animation-delay:4s; transform:scale(1.1) rotate(45deg);"></div>
+  <div class="heart" style="left:65%; animation-delay:1s; transform:scale(0.9) rotate(45deg);"></div>
+  <div class="heart" style="left:80%; animation-delay:3s; transform:scale(1.2) rotate(45deg);"></div>
+  <div class="heart" style="left:92%; animation-delay:5s; transform:scale(0.7) rotate(45deg);"></div>
 
-  <!-- Cats -->
-  <img src="images/cat1.png" class="cat cat1" alt="cat" />
-  <img src="images/cat2.png" class="cat cat2" alt="cat" />
-  <img src="images/cat3.png" class="cat cat3" alt="cat" />
-  <img src="images/cat4.png" class="cat cat4" alt="cat" />
+  <!-- Sparkles -->
+  <div class="sparkle" style="top:12%; left:14%; animation-delay:0s;"></div>
+  <div class="sparkle" style="top:18%; left:82%; animation-delay:1s;"></div>
+  <div class="sparkle" style="top:75%; left:10%; animation-delay:2s;"></div>
+  <div class="sparkle" style="top:70%; left:88%; animation-delay:0.7s;"></div>
 
-  <div class="container">
-
-    <div class="badge">🐾 The Tiny Quest</div>
-
-    <h1>Okay… listen 😭</h1>
+  <main class="card">
+    <h1 class="headline">Okay, I did something.</h1>
 
     <p class="sub">
-      I did something a little stupid.
-      <br /><br />
-      It’s not an original idea…
-      <span class="smallText">
-        (you literally showed me this on Instagram)
-      </span>
-      <br /><br />
-      But I made it anyway because I wanted you to smile 😌
+      <span>You showed me something similar before on Insta.</span>
+      <span>I wanted to make one for you.</span>
     </p>
 
-    <div class="missionBox">
-      <div class="missionTitle">🎯 Your mission:</div>
-      <div class="missionText">
-        Survive 5 tiny pages.<br />
-        No cheating. No skipping.<br />
-        Also… be nice 😌
-      </div>
+    <div class="cta" onclick="goNext()">
+      <span>tap to continue</span>
+      <span style="font-size:1.2rem;">→</span>
     </div>
 
-    <a class="mainBtn" href="dragon.html">Start ➜</a>
+    <div class="tiny">no pressure. just vibes 🥹</div>
+  </main>
 
-    <div class="warningText">
-      Warning: This website contains extreme levels of effort.
-    </div>
-
-  </div>
+  <script>
+    function goNext(){
+      // Change this to your next page filename
+      window.location.href = "page2.html";
+    }
+  </script>
 
 </body>
 </html>
