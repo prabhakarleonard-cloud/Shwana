@@ -26,19 +26,40 @@
       background:#000;
     }
 
-    /* ===== Dragon world behind portal ===== */
+    /* ===== The world behind the portal ===== */
     .world{
       position:absolute;
       inset:0;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(90,160,255,0.22), transparent 45%),
-        radial-gradient(circle at 70% 30%, rgba(140,220,255,0.14), transparent 55%),
-        radial-gradient(circle at 50% 120%, rgba(0,0,0,0.95), rgba(0,0,0,0.2)),
-        linear-gradient(180deg, #03040b 0%, #081a2d 45%, #02030a 100%);
-      transform: scale(1.18);
-      filter: saturate(1.08);
       opacity:0;
       transition: opacity 1.2s ease;
+      transform: scale(1.1);
+    }
+
+    /* Moonlit sky */
+    .sky{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 75% 18%, rgba(255,255,255,0.22), transparent 38%),
+        radial-gradient(circle at 72% 16%, rgba(120,200,255,0.18), transparent 40%),
+        radial-gradient(circle at 30% 25%, rgba(90,160,255,0.16), transparent 48%),
+        linear-gradient(180deg, #02030a 0%, #081a2d 45%, #02030a 100%);
+      filter: saturate(1.08);
+    }
+
+    /* Moon */
+    .moon{
+      position:absolute;
+      top: 9%;
+      right: 14%;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.35), rgba(255,255,255,0.05));
+      box-shadow:
+        0 0 40px rgba(255,255,255,0.18),
+        0 0 140px rgba(120,220,255,0.10);
+      opacity:0.9;
     }
 
     /* Stars */
@@ -61,17 +82,23 @@
       50%{ opacity:0.95; }
     }
 
-    /* Fog */
-    .fog{
+    /* Parallax clouds */
+    .cloudLayer{
       position:absolute;
-      inset:-40%;
+      inset:-20%;
+      filter: blur(34px);
+      opacity:0.65;
+      animation: drift 14s ease-in-out infinite;
       background:
-        radial-gradient(circle at 20% 40%, rgba(255,255,255,0.08), transparent 55%),
-        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.06), transparent 60%),
-        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.07), transparent 55%);
-      filter: blur(42px);
-      animation: drift 12s ease-in-out infinite;
-      opacity:0.85;
+        radial-gradient(circle at 20% 40%, rgba(255,255,255,0.07), transparent 55%),
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.05), transparent 60%),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.06), transparent 55%);
+    }
+    .cloudLayer.two{
+      opacity:0.35;
+      filter: blur(46px);
+      animation-duration: 18s;
+      transform: scale(1.08);
     }
     @keyframes drift{
       0%{ transform: translate3d(-2%, -2%, 0) scale(1.05); }
@@ -87,7 +114,7 @@
       bottom:-1px;
       height: 48vh;
       background:
-        linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.75)),
+        linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.78)),
         linear-gradient(180deg, #0a0f1c 0%, #02030a 100%);
       clip-path: polygon(
         0% 100%,
@@ -107,60 +134,6 @@
       opacity:0.98;
     }
 
-    /* Floating particles */
-    .particle{
-      position:absolute;
-      width:6px;
-      height:6px;
-      border-radius:50%;
-      background: rgba(180,220,255,0.35);
-      filter: blur(0.4px);
-      animation: float 10s linear infinite;
-      opacity:0;
-    }
-    @keyframes float{
-      0%{ transform: translateY(40vh); opacity:0; }
-      15%{ opacity:0.45; }
-      100%{ transform: translateY(-70vh); opacity:0; }
-    }
-
-    /* ===== Toothless eyes in fog (subtle) ===== */
-    .eyes{
-      position:absolute;
-      left:50%;
-      top:42%;
-      transform: translate(-50%, -50%);
-      width: 220px;
-      height: 90px;
-      opacity:0;
-      transition: opacity 1.2s ease;
-      filter: blur(0.3px);
-      pointer-events:none;
-    }
-    .eye{
-      position:absolute;
-      top: 18px;
-      width: 42px;
-      height: 26px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 40% 40%, rgba(180,255,160,0.95), rgba(60,180,120,0.25), transparent 70%);
-      box-shadow: 0 0 22px rgba(120,255,170,0.22);
-      opacity:0.85;
-      animation: blink 6.5s ease-in-out infinite;
-    }
-    .eye.left{ left: 46px; }
-    .eye.right{ right: 46px; }
-
-    @keyframes blink{
-      0%, 92%, 100%{ transform: scaleY(1); }
-      94%{ transform: scaleY(0.08); }
-      96%{ transform: scaleY(1); }
-    }
-
-    .showEyes .eyes{
-      opacity:0.25; /* subtle */
-    }
-
     /* ===== Portal tear ===== */
     .tear{
       position:absolute;
@@ -177,12 +150,11 @@
       );
       box-shadow:
         0 0 30px rgba(120,220,255,0.45),
-        0 0 90px rgba(120,220,255,0.18);
+        0 0 100px rgba(120,220,255,0.16);
       opacity:0;
       z-index:10;
     }
 
-    /* Rip edges */
     .tear::before,
     .tear::after{
       content:"";
@@ -203,7 +175,6 @@
       clip-path: polygon(0% 0%, 60% 8%, 10% 16%, 70% 26%, 5% 38%, 65% 48%, 12% 62%, 72% 70%, 8% 84%, 55% 92%, 0% 100%);
     }
 
-    /* Fabric ripple overlay */
     .ripple{
       position:absolute;
       inset:0;
@@ -223,15 +194,16 @@
       filter: blur(1px);
     }
 
-    /* ===== Animations ===== */
     .opening .tear{
       opacity:1;
       animation: openTear 2.1s ease forwards;
     }
-
     .opening .ripple{
       opacity:1;
       animation: ripple 2.4s ease forwards;
+    }
+    .opening .world{
+      opacity:1;
     }
 
     @keyframes ripple{
@@ -241,33 +213,24 @@
     }
 
     @keyframes openTear{
-      0%{
-        width: 12px;
-        height: 220px;
-        opacity:0;
-      }
+      0%{ width: 12px; height: 220px; opacity:0; }
       15%{ opacity:1; }
       100%{
-        width: 82vw;
+        width: 86vw;
         height: 92vh;
         opacity:1;
         border-radius: 26px;
       }
     }
 
-    /* World fade in */
-    .opening .world{ opacity:1; }
-
     /* Camera push-in */
     .push .world{
-      transform: scale(1.38);
-      transition: transform 2.6s ease;
+      transform: scale(1.24);
+      transition: transform 2.8s ease;
     }
 
     /* Screen rumble */
-    .rumble{
-      animation: rumble 0.5s ease;
-    }
+    .rumble{ animation: rumble 0.5s ease; }
     @keyframes rumble{
       0%{ transform: translate(0,0); }
       20%{ transform: translate(-3px,2px); }
@@ -275,6 +238,62 @@
       60%{ transform: translate(-2px,-1px); }
       80%{ transform: translate(2px,1px); }
       100%{ transform: translate(0,0); }
+    }
+
+    /* ===== Dragons (SVG) ===== */
+    .dragons{
+      position:absolute;
+      inset:0;
+      z-index:6;
+      pointer-events:none;
+    }
+
+    .dragon{
+      position:absolute;
+      width: 140px;
+      height: 80px;
+      opacity:0.9;
+      filter: drop-shadow(0 10px 22px rgba(0,0,0,0.45));
+      animation: fly linear infinite;
+    }
+
+    /* Different depth */
+    .d1{ top:18%; left:-20%; width: 190px; animation-duration: 16s; opacity:0.95; }
+    .d2{ top:30%; left:-25%; width: 120px; animation-duration: 13s; opacity:0.7; }
+    .d3{ top:44%; left:-30%; width: 160px; animation-duration: 18s; opacity:0.6; }
+    .d4{ top:22%; left:-40%; width: 90px;  animation-duration: 11s; opacity:0.55; }
+    .d5{ top:36%; left:-35%; width: 110px; animation-duration: 14s; opacity:0.65; }
+    .d6{ top:14%; left:-30%; width: 75px;  animation-duration: 10s; opacity:0.45; }
+
+    /* Main cute black dragon */
+    .main{
+      top: 56%;
+      left: -30%;
+      width: 240px;
+      animation-duration: 20s;
+      opacity: 1;
+      z-index:7;
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,0.55));
+    }
+
+    @keyframes fly{
+      0%{ transform: translateX(0) translateY(0) scale(1); }
+      20%{ transform: translateX(30vw) translateY(-1vh) scale(1.02); }
+      50%{ transform: translateX(70vw) translateY(1.5vh) scale(1.03); }
+      100%{ transform: translateX(140vw) translateY(-0.5vh) scale(1.02); }
+    }
+
+    /* Wing flap animation */
+    .wing{
+      transform-origin: 60% 55%;
+      animation: flap 0.65s ease-in-out infinite;
+    }
+    .wing.slow{ animation-duration: 0.9s; }
+    .wing.fast{ animation-duration: 0.55s; }
+
+    @keyframes flap{
+      0%,100%{ transform: rotate(0deg) scaleY(1); }
+      50%{ transform: rotate(-10deg) scaleY(0.95); }
     }
 
     /* ===== Question overlay ===== */
@@ -290,7 +309,6 @@
       transition: opacity 0.8s ease;
       z-index:30;
     }
-
     .question.show{
       opacity:1;
       pointer-events:auto;
@@ -305,11 +323,9 @@
       backdrop-filter: blur(16px);
       box-shadow: 0 50px 140px rgba(0,0,0,0.55);
       text-align:center;
-
       transform: translateY(14px);
       animation: cardFloat 5s ease-in-out infinite;
     }
-
     @keyframes cardFloat{
       0%,100%{ transform: translateY(14px); }
       50%{ transform: translateY(6px); }
@@ -378,6 +394,12 @@
       75%{ transform: translateX(-4px); }
       100%{ transform: translateX(0); }
     }
+
+    /* Mobile tweaks */
+    @media (max-width: 520px){
+      .moon{ width: 105px; height: 105px; right: 10%; }
+      .main{ width: 200px; }
+    }
   </style>
 </head>
 
@@ -385,26 +407,36 @@
   <div class="scene opening" id="scene">
 
     <div class="world" id="world">
+      <div class="sky"></div>
       <div class="stars"></div>
-      <div class="fog"></div>
+      <div class="moon"></div>
 
-      <div class="eyes" id="eyes">
-        <div class="eye left"></div>
-        <div class="eye right"></div>
+      <div class="cloudLayer"></div>
+      <div class="cloudLayer two"></div>
+
+      <div class="dragons" id="dragons">
+        <!-- Smaller dragons -->
+        <div class="dragon d1">${dragonSVG("slow")}</div>
+        <div class="dragon d2">${dragonSVG("fast")}</div>
+        <div class="dragon d3">${dragonSVG("slow")}</div>
+        <div class="dragon d4">${dragonSVG("fast")}</div>
+        <div class="dragon d5">${dragonSVG("slow")}</div>
+        <div class="dragon d6">${dragonSVG("fast")}</div>
+
+        <!-- Main cute black dragon -->
+        <div class="dragon main">${mainDragonSVG()}</div>
       </div>
 
       <div class="mountains"></div>
     </div>
 
-    <div class="tear" id="tear"></div>
-    <div class="ripple" id="ripple"></div>
+    <div class="tear"></div>
+    <div class="ripple"></div>
 
     <div class="question" id="question">
       <div class="card" id="card">
         <h1>Okay… be honest.</h1>
-        <p>
-          Toothless is ridiculously cute right? 😭
-        </p>
+        <p>Toothless energy is undefeated right? 😭</p>
 
         <div class="btns">
           <button class="yes" id="yesBtn">YES OBVIOUSLY 😤</button>
@@ -424,42 +456,14 @@
     const noBtn = document.getElementById("noBtn");
     const card = document.getElementById("card");
 
-    // Create particles
-    const world = document.getElementById("world");
-    for(let i=0;i<14;i++){
-      const p = document.createElement("div");
-      p.className = "particle";
-      p.style.left = Math.random()*100 + "%";
-      p.style.animationDuration = (8 + Math.random()*8) + "s";
-      p.style.animationDelay = (Math.random()*4) + "s";
-      p.style.transform = "translateY(" + (30 + Math.random()*60) + "vh)";
-      world.appendChild(p);
-    }
-
-    // Optional: tiny "whoosh" sound
-    // NOTE: Autoplay audio is blocked on many mobiles unless user taps.
-    const whoosh = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_2d0cdbefdf.mp3?filename=whoosh-6316.mp3");
-    whoosh.volume = 0.25;
-
-    // Timeline:
-    // 0.4s: rumble + attempt whoosh
-    // 2.2s: push in
-    // 3.1s: show eyes briefly
-    // 4.9s: show question
+    // --- Timeline ---
     setTimeout(() => {
       scene.classList.add("rumble");
-      // try play (may fail due to autoplay rules)
-      whoosh.play().catch(()=>{});
     }, 400);
 
     setTimeout(() => {
       scene.classList.add("push");
     }, 2200);
-
-    setTimeout(() => {
-      scene.classList.add("showEyes");
-      setTimeout(()=> scene.classList.remove("showEyes"), 1600);
-    }, 3100);
 
     setTimeout(() => {
       question.classList.add("show");
@@ -479,6 +483,111 @@
       noBtn.style.opacity = "0.55";
 
       yesBtn.textContent = "YES. (correct answer) 😌";
+    });
+
+    // --- SVG injection helpers ---
+    // We keep SVGs as strings so this page is ONE file.
+
+    function dragonSVG(speedClass){
+      return `
+        <svg viewBox="0 0 220 120" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- body -->
+          <path d="M38 66
+                   C58 44, 92 36, 118 46
+                   C138 54, 150 56, 168 48
+                   C160 64, 146 76, 124 80
+                   C92 86, 62 82, 38 66Z"
+                fill="rgba(10,10,14,0.95)"/>
+          <!-- head -->
+          <path d="M168 48
+                   C184 38, 200 40, 206 52
+                   C198 60, 188 64, 176 60
+                   C172 56, 170 52, 168 48Z"
+                fill="rgba(10,10,14,0.95)"/>
+          <!-- tail -->
+          <path d="M38 66
+                   C22 74, 16 84, 18 92
+                   C30 88, 44 82, 52 74Z"
+                fill="rgba(10,10,14,0.92)"/>
+
+          <!-- wings -->
+          <g class="wing ${speedClass}">
+            <path d="M88 52
+                     C64 22, 38 20, 24 36
+                     C38 40, 52 52, 60 66
+                     C70 60, 80 56, 88 52Z"
+                  fill="rgba(12,12,18,0.92)"/>
+            <path d="M104 56
+                     C88 22, 68 10, 52 18
+                     C68 28, 78 44, 84 64
+                     C92 60, 98 58, 104 56Z"
+                  fill="rgba(12,12,18,0.72)"/>
+          </g>
+        </svg>
+      `;
+    }
+
+    function mainDragonSVG(){
+      return `
+        <svg viewBox="0 0 260 150" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- main body -->
+          <path d="M52 86
+                   C78 56, 118 48, 150 62
+                   C168 70, 184 74, 208 64
+                   C200 86, 182 104, 150 108
+                   C112 114, 78 108, 52 86Z"
+                fill="rgba(0,0,0,0.98)"/>
+
+          <!-- cute head -->
+          <path d="M208 64
+                   C228 50, 248 54, 254 72
+                   C244 88, 228 92, 214 84
+                   C210 78, 208 72, 208 64Z"
+                fill="rgba(0,0,0,0.98)"/>
+
+          <!-- ears/horns -->
+          <path d="M226 52 L214 40 L222 62Z" fill="rgba(0,0,0,0.95)"/>
+          <path d="M238 54 L232 38 L230 66Z" fill="rgba(0,0,0,0.92)"/>
+
+          <!-- tail -->
+          <path d="M52 86
+                   C28 96, 20 112, 26 126
+                   C42 116, 62 106, 70 96Z"
+                fill="rgba(0,0,0,0.95)"/>
+
+          <!-- wings -->
+          <g class="wing slow">
+            <path d="M118 70
+                     C86 30, 48 28, 28 52
+                     C54 58, 74 78, 84 100
+                     C96 86, 108 78, 118 70Z"
+                  fill="rgba(0,0,0,0.96)"/>
+            <path d="M140 76
+                     C118 28, 86 10, 60 24
+                     C92 40, 106 64, 112 104
+                     C124 92, 132 84, 140 76Z"
+                  fill="rgba(0,0,0,0.72)"/>
+          </g>
+
+          <!-- tiny glowing eyes (subtle cute) -->
+          <circle cx="236" cy="74" r="4" fill="rgba(140,255,190,0.9)"/>
+          <circle cx="224" cy="72" r="4" fill="rgba(140,255,190,0.9)"/>
+        </svg>
+      `;
+    }
+
+    // Inject SVG strings into the placeholders
+    // (because HTML doesn't allow calling JS inside markup directly)
+    const dragonEls = document.querySelectorAll(".dragon");
+    dragonEls.forEach(el => {
+      if(el.classList.contains("main")){
+        el.innerHTML = mainDragonSVG();
+      } else {
+        // alternate flap speed
+        const speed = el.classList.contains("d2") || el.classList.contains("d4") || el.classList.contains("d6")
+          ? "fast" : "slow";
+        el.innerHTML = dragonSVG(speed);
+      }
     });
   </script>
 </body>
